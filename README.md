@@ -1,9 +1,9 @@
 Deze game is gebaseerd op het template voor 4HV van het Emmauscollege Rotterdam
 
-## Mijn spel: *naam van het spel*
+## Mijn spel: Pacman
 Gemaakt door:
-- *naam van leerling 1*
-- *naam van leerling 2*
+- Onno van Oosterhout
+- Tom Nijhoff
 
 ## Mijn planning
 
@@ -11,19 +11,20 @@ Basis: uitleg, spelen, afgaan en punten
 - [x] maak index.html, style.css en script.js met canvas
 - [ ] teken speler
 - [ ] beweeg speler
-- [ ] ... *(vul zelf aan)*
+- [ ] teken vijand
+- [ ] beweeg vijand
 - [ ] punten op scherm zetten
 - [ ] punten kunnen scoren
 - [ ] uitlegscherm
 
 Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
-- [ ] *later uitwerken*
-- [ ] *later uitwerken*
-- [ ] *later uitwerken*
+- [ ]  teken muntjes
+- [ ]  teken power-ups
+- [ ]  teken  levels
 
 Uitbreiding: *bedenk iets, bijvoorbeeld bewegende achtergrond*
-- [ ] *later uitwerken*
-- [ ] *later uitwerken*
+- [ ]  teken beweegende muntjes
+- [ ]  teken extra vijanden (3)
 - [ ] *later uitwerken*
 
 ## Credits
