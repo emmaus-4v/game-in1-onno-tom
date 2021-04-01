@@ -83,6 +83,12 @@ var tekenSpeler = function(x, y) {
   ellipse(x, y, 50, 50);
 };
 
+var tekenSpeler1 = function(x, y) {
+  fill("white");
+  ellipse(x, y, 100, 150);
+};
+
+
 
 /**
  * Updatet globale variabelen met positie van vijand of tegenspeler
