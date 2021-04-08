@@ -47,7 +47,7 @@ var score = 0; // aantal behaalde punten
  */
 var tekenVeld = function () {
   fill("black");
-  rect(20, 20, width - 2 * 20, height - 2 * 20);
+  rect(20, 20, width - 2 * 200, height - 2 * 100);
 };
 
 
@@ -113,7 +113,7 @@ var beweegKogel = function() {
  * Kijkt wat de toetsen/muis etc zijn.
  * Updatet globale variabele spelerX en spelerY
  */
-var beweegSpeler = function() {
+var beweegSpeler = function keytyped() {
 
 };
 
@@ -156,10 +156,10 @@ var checkGameOver = function() {
  */
 function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
-  createCanvas(1280, 720);
+  createCanvas(1000, 500);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('blue');
+  background('black');
 }
 
 
