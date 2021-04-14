@@ -187,6 +187,9 @@ function draw() {
 
       tekenVeld();
       tekenVijand(vijandX, vijandY);
+      var tekenvijand = function(x, y) {
+  
+} ;
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
 
