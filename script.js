@@ -113,10 +113,10 @@ var beweegKogel = function() {
  * Kijkt wat de toetsen/muis etc zijn.
  * Updatet globale variabele spelerX en spelerY
  */
-var beweegSpeler = function keytyped() {
-
-};
-
+var beweegSpeler = function keyIsDown ( LEFT_ARROW ) {
+    spelerX -1 
+    spelerY +0
+}
 
 /**
  * Zoekt uit of de vijand is geraakt
