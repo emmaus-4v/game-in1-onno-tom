@@ -17,6 +17,11 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 
+import { LEVEL, OBJECT_TYPE } from './setup';
+import { randomMovement } from './geestbewegen';
+
+import GameDesign from './GameDesign';
+import Geest from './Geest';
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
