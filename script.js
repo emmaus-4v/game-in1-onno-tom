@@ -19,9 +19,21 @@
 
 import { LEVEL, OBJECT_TYPE } from './setup';
 import { randomMovement } from './geestbewegen';
-
+// Classes
 import GameDesign from './GameDesign';
+import Pacman from './Pacman';
 import Geest from './Geest';
+
+
+
+
+
+
+
+
+
+
+
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
