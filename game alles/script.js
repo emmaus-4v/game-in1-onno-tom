@@ -26,7 +26,7 @@ import Geest from './Geest';
 
 // Elementen
 const gameGrid = document.querySelector('#game');
-const scoreTable = document.querySelector('#score');
+const scoreTaffel = document.querySelector('#score');
 const startButton = document.querySelector('#start-button');
 
 //game variabelen
@@ -110,7 +110,7 @@ function gameLoop(pacman, geesten) {
         gameOver(pacman, gameGrid);;
     }
    // nieuwe score
-    scoreTable.innerHTML = score;
+    scoreTaffel.innerHTML = score;
 }
 
 function startGame() {
