@@ -24,195 +24,118 @@ import GameDesign from './GameDesign';
 import Pacman from './Pacman';
 import Geest from './Geest';
 
+// Elementen
+const gameGrid = document.querySelector('#game');
+const scoreTable = document.querySelector('#score');
+const startButton = document.querySelector('#start-button');
 
+//game variabelen
+const POWER_PILL_TIME = 10000;
+const GLOBAL_SPEED = 80;
+const gameBoard = GameDesign.createGameBoard(gameGrid, LEVEL);
 
+// begin game
+let score = 0;
+let timer = null;
+let gameWin = false;
+let powerPillActive = false;
+let powerPillTimer = null;
 
+function gameOver(pacman, grid) {
+    document.removeEventListener('keydown', (e) =>
+    pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
+    );
 
+    gameBoard.showGameStatus(gameWin);
 
-
-
-
-
-
-const UITLEG = 0;
-const SPELEN = 1;
-const GAMEOVER = 2;
-var spelStatus = SPELEN;
-
-var spelerX = 200; // x-positie van speler
-var spelerY = 100; // y-positie van speler
-
-var kogelX = 0;    // x-positie van kogel
-var kogelY = 0;    // y-positie van kogel
-
-var vijandX = 0;   // x-positie van vijand
-var vijandY = 0;   // y-positie van vijand
-
-var score = 0; // aantal behaalde punten
-
-
-
-
-
-/* ********************************************* */
-/*      functies die je gebruikt in je game      */
-/* ********************************************* */
-
-
-/**
- * Tekent het speelveld
- */
-var tekenVeld = function () {
-  fill("black");
-  rect(20, 20, width - 2 * 200, height - 2 * 100);
-};
-
-
-/**
- * Tekent de vijand
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
-var tekenVijand = function(x, y) {
-    
-
-};
-
-
-/**
- * Tekent de kogel of de bal
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
-var tekenKogel = function(x, y) {
-
-
-};
-
-
-/**
- * Tekent de speler
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
-var tekenSpeler = function(x, y) {
-  fill("yellow");
-  ellipse(x, y, 30, 30);
-  fill("black")
-  ellipse(x + 3, y - 7, 6, 6)
-  triangle(x + 2, y, x + 15, y - 5, x + 15, y + 5)
-};
-
-var tekenSpeler1 = function(x, y) {
-  fill("white");
-  ellipse(x, y, 100, 150);
-};
-
-
-
-/**
- * Updatet globale variabelen met positie van vijand of tegenspeler
- */
-var beweegVijand = function() {
-    
-};
-
-
-/**
- * Updatet globale variabelen met positie van kogel of bal
- */
-var beweegKogel = function() {
-
-};
-
-
-/**
- * Kijkt wat de toetsen/muis etc zijn.
- * Updatet globale variabele spelerX en spelerY
- */
-var beweegSpeler = function keyIsDown ( LEFT_ARROW ) {
-    spelerX -1 
-    spelerY +0
+    clearInterval(timer);
+    startButton.classList.remove('.hide');
 }
 
-/**
- * Zoekt uit of de vijand is geraakt
- * @returns {boolean} true als vijand is geraakt
- */
-var checkVijandGeraakt = function() {
+function checkBotsing(pacman, geest) {
+    const botsingGeest = geest.find(geest) => pacman.pos === geest.pos;
 
-  return false;
-};
-
-
-/**
- * Zoekt uit of de speler is geraakt
- * bijvoorbeeld door botsing met vijand
- * @returns {boolean} true als speler is geraakt
- */
-var checkSpelerGeraakt = function() {
-    
-  return false;
-};
-
-
-/**
- * Zoekt uit of het spel is afgelopen
- * @returns {boolean} true als het spel is afgelopen
- */
-var checkGameOver = function() {
-    
-  return false;
-};
-
-
-/**
- * setup
- * de code in deze functie wordt één keer uitgevoerd door
- * de p5 library, zodra het spel geladen is in de browser
- */
-function setup() {
-  // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
-  createCanvas(1000, 500);
-
-  // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('black');
+    if(botsingGeest) {
+        if (pacman.powerPill) {
+            gameBoard.removeObject(botsingGeest.pos, [
+                OBJECT_TYPE.GHOST,
+                OBJECT_TYPE.BANG,
+                botsingGeest.name
+            ]);
+            botsingGeest.pos = botsingGeest.startPos;
+            score += 100;
+        } else {
+            gameBoard.removeObject(pacman.pos [OBJECT_TYPE.PACMAN]);
+            gameBoard.rotateDiv(pacman.pos, 0);
+            gameOver(pacman, gameGrid);
+        }
+    }
 }
 
+function gameLoop(pacman, geesten) {
+    gameBoard.moveCharacter(pacman);
+    checkBotsing(pacman, geesten)
+    geesten.forEach((ghost) => gameBoard.moveCharacter(geesten));
+    // botsing pacman met geest
+    checkBotsing(pacman, geesten);
+   // pacman eet stip
+    if (gameBoard.objectExist(pacman.pos, OBJECT_TYPE.DOT)) {
+      gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.DOT]);
 
-/**
- * draw
- * de code in deze functie wordt meerdere keren per seconde
- * uitgevoerd door de p5 library, nadat de setup functie klaar is
- */
-function draw() {
-  switch (spelStatus) {
-    case SPELEN:
-      beweegVijand();
-      beweegKogel();
-      beweegSpeler();
-      
-      if (checkVijandGeraakt()) {
-        // punten erbij
-        // nieuwe vijand maken
-      }
-      
-      if (checkSpelerGeraakt()) {
-        // leven eraf of gezondheid verlagen
-        // eventueel: nieuwe speler maken
-      }
+      gameBoard.dotCount--;
+      score += 50;
+    }
+// check power up 
+    if (gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
+      gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
 
-      tekenVeld();
-      tekenVijand(vijandX, vijandY);
-      var tekenvijand = function(x, y) {
-  
-} ;
-      tekenKogel(kogelX, kogelY);
-      tekenSpeler(spelerX, spelerY);
+      pacman.powerPill = true;
+      score += 50;
 
-      if (checkGameOver()) {
-        spelStatus = GAMEOVER;
-      }
-      break;
-  }
+      clearTimeout(powerPillTimer);
+      powerPillTimer = setTimeout(
+          () => (pacman.powerPill = false),
+          POWER_PILL_TIME
+      );
+    }
+    // geest bang voor pacman mode  
+    if (pacman.powerPill !== powerPillActive) {
+        powerPillActive = pacman.powerPill;
+        geesten.forEach((geest) => (geest.isBang = pacman.powerPill));
+    }
+
+    // check of alle puntjes zijn gegeten
+    if (gameBoard.dotCount === 0) {
+        gameWin = true;
+        gameOver(pacman, gameGrid);;
+    }
+   // nieuwe score
+    scoreTable.innerHTML = score;
 }
+
+function startGame() {
+    gameWin = false;
+    powerPillActive = false;
+    score = 0;
+
+    startButton.classList.add('hide');
+
+    gameBoard.createGrid(LEVEL);
+
+    const pacman = new Pacman(2, 287);
+    gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
+    document.addEventListener('keydown', (e) =>
+      pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
+    );
+
+    const geesten = [
+        new Geest(5, 188, randomMovement, OBJECT_TYPE.BLINKY),
+        new Geest(4, 209, randomMovement, OBJECT_TYPE.PINKY),
+        new Geest(3, 230, randomMovement, OBJECT_TYPE.INKY),
+        new Geest(2, 251, randomMovement, OBJECT_TYPE.CLYDE)
+    ];
+
+    timer = setInterval(() => gameLoop(pacman, geesten), GLOBAL_SPEED);
+}
+
+startButton.addEventListener('click', startGame);
