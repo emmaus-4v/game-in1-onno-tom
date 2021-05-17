@@ -22,11 +22,6 @@ html, body {
     box-sizing: border-box;
 }
 
-body {
-    background: url('background1.jpg') no-repeat center center fixed;
-    background-size: cover;
-}
-
 #wrapper {
     position: relative;
     display: flex;
