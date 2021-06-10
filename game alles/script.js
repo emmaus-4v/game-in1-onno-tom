@@ -1,6 +1,4 @@
-/// @ts-check
-/// <reference path=".gitpod/p5.global-mode.d.ts" />
-"use strict";
+
 
 /* Game opdracht
    Informatica - Emmauscollege Rotterdam
@@ -53,7 +51,7 @@ function gameOver(pacman, grid) {
 }
 
 function checkBotsing(pacman, geest) {
-    const botsingGeest = geest.find(geest) => pacman.pos === geest.pos;
+    const botsingGeest = geest.find(geest) ; pacman.pos === geest.pos;
 
     if(botsingGeest) {
         if (pacman.powerPill) {
