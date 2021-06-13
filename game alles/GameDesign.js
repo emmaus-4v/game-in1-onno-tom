@@ -18,14 +18,14 @@ class GameDesign {
         this.DOMGrid.innerHTML = '';
         this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px);`;
 
-        level.forEach(square) ; {
+        level.forEach((square, i) =>   {
             const div = document.createElement('div');
             div.classList.add('square', CLASS_LIST[square]);
             div.style.cssText = `width: ${CELL_SIZE}px; height: ${CELL_SIZE}px`;
             this.DOMGrid.appendChild(div);
             this.grid.push(div);
             if (CLASS_LIST[square] === OBJECT_TYPE.DOT) this.dotCount++;
-        };
+        })
     }
     addObject(pos, classes) {
         this.grid[pos].classList.add(...classes);
@@ -55,10 +55,10 @@ class GameDesign {
             character.setNewPos(nextMovePos, direction);
         }
     }
-    static createGameBoard(DOMGrid, level) {
-        const board = new this (DOMGrid);
-        board.createGrid(level);
-        return board;
+    static createGameDesign(DOMGrid, level) {
+        const design = new this (DOMGrid);
+        design.createGrid(level);
+        return design;
     }
 }
 
