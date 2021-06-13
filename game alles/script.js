@@ -136,13 +136,8 @@ function startGame() {
     timer = setInterval(() => gameLoop(pacman, geesten), GLOBAL_SPEED);
 }
 
-var startButton = document.getElementById("startButton")
-startButton.addEventListener('click', Start);
 
-function Start(){
-    console.log("started");
-    startGame.removeEventListener("click", start);
-    startGame.addEventListener("click", stop);
-    startGame.value = "start";
-}
+startButton.addEventListener('click', startGame);
+
+
 
