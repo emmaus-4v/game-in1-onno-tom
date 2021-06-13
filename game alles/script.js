@@ -18,7 +18,7 @@
 import { LEVEL, OBJECT_TYPE } from './setup';
 import { randomMovement } from './geestbewegen';
 // Classes
-import GameDesign from './GameDesign';
+import GameBord from './GameBord';
 import Pacman from './Pacman';
 import Geest from './Geest';
 
@@ -30,7 +30,7 @@ const startButton = document.querySelector('#start-button');
 //game variabelen
 const POWER_PILL_TIME = 10000;
 const GLOBAL_SPEED = 80;
-const gameDesign = GameDesign.createGameBoard(gameGrid, LEVEL);
+const gameBord = GameBord.createGameBord(gameGrid, LEVEL);
 
 // begin game
 let score = 0;
@@ -39,12 +39,12 @@ let gameWin = false;
 let powerPillActive = false;
 let powerPillTimer = null;
 
-function gameOver(pacman, Grid) {
+function gameOver(pacman, gameBord) {
     document.removeEventListener('keydown', (e) =>
-    pacman.handleKeyInput(e, gameDesign.objectExist.bind(gameDesign))
+    pacman.handleKeyInput(e, gameBord.objectExist.bind(gameBord))
     );
 
-    gameDesign.showGameStatus(gameWin);
+    gameBord.showGameStatus(gameWin);
 
     clearInterval(timer);
     startButton.classList.remove('.hide');
@@ -55,7 +55,7 @@ function checkBotsing(pacman, geest) {
 
     if(botsingGeest) {
         if (pacman.powerPill) {
-            gameDesign.removeObject(botsingGeest.pos, [
+            gameBord.removeObject(botsingGeest.pos, [
                 OBJECT_TYPE.GHOST,
                 OBJECT_TYPE.BANG,
                 botsingGeest.name
@@ -63,29 +63,29 @@ function checkBotsing(pacman, geest) {
             botsingGeest.pos = botsingGeest.startPos;
             score += 100;
         } else {
-            gameDesign.removeObject(pacman.pos [OBJECT_TYPE.PACMAN]);
-            gameDesign.rotateDiv(pacman.pos, 0);
+            gameBord.removeObject(pacman.pos [OBJECT_TYPE.PACMAN]);
+            gameBord.rotateDiv(pacman.pos, 0);
             gameOver(pacman, gameGrid);
         }
     }
 }
 
 function gameLoop(pacman, geesten) {
-    gameDesign.moveCharacter(pacman);
+    gameBord.moveCharacter(pacman);
     checkBotsing(pacman, geesten)
-    geesten.forEach((ghost) => gameDesign.moveCharacter(geesten));
+    geesten.forEach((geesten) => gameBord.moveCharacter(geesten));
     // botsing pacman met geest
     checkBotsing(pacman, geesten);
    // pacman eet stip
-    if (gameDesign.objectExist(pacman.pos, OBJECT_TYPE.DOT)) {
-      gameDesign.removeObject(pacman.pos, [OBJECT_TYPE.DOT]);
+    if (gameBord.objectExist(pacman.pos, OBJECT_TYPE.DOT)) {
+      gameBord.removeObject(pacman.pos, [OBJECT_TYPE.DOT]);
 
-      gameDesign.dotCount--;
+      gameBord.dotCount--;
       score += 50;
     }
 // check power up 
-    if (gameDesign.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
-      gameDesign.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
+    if (gameBord.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
+      gameBord.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
 
       pacman.powerPill = true;
       score += 50;
@@ -103,7 +103,7 @@ function gameLoop(pacman, geesten) {
     }
 
     // check of alle puntjes zijn gegeten
-    if (gameDesign.dotCount === 0) {
+    if (gameBord.dotCount === 0) {
         gameWin = true;
         gameOver(pacman, gameGrid);;
     }
@@ -118,12 +118,12 @@ function startGame() {
 
     startButton.classList.add('hide');
 
-    gameDesign.createGrid(LEVEL);
+    gameBord.createGrid(LEVEL);
 
     const pacman = new Pacman(2, 287);
-    gameDesign.addObject(287, [OBJECT_TYPE.PACMAN]);
+    gameBord.addObject(287, [OBJECT_TYPE.PACMAN]);
     document.addEventListener('keydown', (e) =>
-      pacman.handleKeyInput(e, gameDesign.objectExist.bind(gameDesign))
+      pacman.handleKeyInput(e, gameBord.objectExist.bind(gameBord))
     );
 
     const geesten = [

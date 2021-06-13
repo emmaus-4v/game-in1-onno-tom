@@ -1,6 +1,6 @@
 import { GRID_SIZE, CELL_SIZE, OBJECT_TYPE, CLASS_LIST } from './setup';
 
-class GameDesign {
+class GameBord {
     constructor(DOMGrid) {
         this.dotCount = 0;
         this.grid = [];
@@ -18,12 +18,13 @@ class GameDesign {
         this.DOMGrid.innerHTML = '';
         this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px);`;
 
-        level.forEach((square, i) =>   {
+        level.forEach((square) =>   {
             const div = document.createElement('div');
             div.classList.add('square', CLASS_LIST[square]);
             div.style.cssText = `width: ${CELL_SIZE}px; height: ${CELL_SIZE}px`;
             this.DOMGrid.appendChild(div);
             this.grid.push(div);
+            
             if (CLASS_LIST[square] === OBJECT_TYPE.DOT) this.dotCount++;
         })
     }
@@ -39,7 +40,8 @@ class GameDesign {
     rotateDiv(pos, deg) {
         this.grid[pos].style.transform = `rotate(${deg}deg)`;
     }
-    moveCharacter(character) {
+
+     moveCharacter(character) {
         if (character.shouldMove()) {
             const { nextMovePos, direction } = character.getNextMove (
                 this.objectExist.bind(this)
@@ -54,12 +56,12 @@ class GameDesign {
 
             character.setNewPos(nextMovePos, direction);
         }
-    }
-    static createGameDesign(DOMGrid, level) {
-        const design = new this (DOMGrid);
-        design.createGrid(level);
-        return design;
+     }
+    static createGameBord(DOMGrid, level) {
+        const bord = new this (DOMGrid);
+        bord.createGrid(level);
+        return bord;
     }
 }
 
-export default GameDesign;
+export default GameBord;

@@ -18,6 +18,10 @@ html, body {
   margin: 0px;
 }
 
+body {
+    background: url("background1.jpg") no-repeat center fixed;
+    background-size: cover;
+}
 * {
     box-sizing: border-box;
 }
