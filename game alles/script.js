@@ -27,8 +27,8 @@ var spelerY = 100; // y-positie van speler
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
 
-var vijandX = 0;   // x-positie van vijand
-var vijandY = 0;   // y-positie van vijand
+var vijandX = 100;   // x-positie van vijand
+var vijandY = 100;   // y-positie van vijand
 
 var score = 0; // aantal behaalde punten
 
@@ -52,11 +52,12 @@ var tekenVeld = function () {
 
 /**
  * Tekent de vijand
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
+ * @param {} x x-coördinaat
+ * @param {} y y-coördinaat
  */
 var tekenVijand = function(x, y) {
-    
+  fill("red")
+  ellipse(x, y, 40, 40)
 
 };
 
@@ -103,21 +104,22 @@ var beweegKogel = function() {
  * Kijkt wat de toetsen/muis etc zijn.
  * Updatet globale variabele spelerX en spelerY
  */
+
 var beweegSpeler = function draw() {
   if (keyIsDown(37)) {
-    spelerX -= 40;
+    spelerX-=10;
   }
 
   if (keyIsDown(39)) {
-    spelerX += 40;
+    spelerX += 10;
   }
 
   if (keyIsDown(38)) {
-    spelerY -= 40;
+    spelerY -= 10;
   }
 
   if (keyIsDown(40)) {
-    spelerY += 40;
+    spelerY += 10;
   }
 };
 
