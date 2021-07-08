@@ -45,7 +45,7 @@ var score = 0; // aantal behaalde punten
  * Tekent het speelveld
  */
 var tekenVeld = function () {
-  fill("red");
+  fill("green");
   rect(20, 20, width - 2 * 20, height - 2 * 20);
 };
 
@@ -78,8 +78,8 @@ var tekenKogel = function(x, y) {
  * @param {number} y y-coördinaat
  */
 var tekenSpeler = function(x, y) {
-  fill("white");
-  ellipse(x, y, 50, 50);
+  fill("purple");
+  rect(x, y, 40, 40);
 };
 
 
@@ -103,8 +103,22 @@ var beweegKogel = function() {
  * Kijkt wat de toetsen/muis etc zijn.
  * Updatet globale variabele spelerX en spelerY
  */
-var beweegSpeler = function() {
+var beweegSpeler = function draw() {
+  if (keyIsDown(37)) {
+    spelerX -= 40;
+  }
 
+  if (keyIsDown(39)) {
+    spelerX += 40;
+  }
+
+  if (keyIsDown(38)) {
+    spelerY -= 40;
+  }
+
+  if (keyIsDown(40)) {
+    spelerY += 40;
+  }
 };
 
 
