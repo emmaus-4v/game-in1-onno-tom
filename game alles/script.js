@@ -32,6 +32,8 @@ var vijandY = 100;   // y-positie van vijand
 
 var score = 0; // aantal behaalde punten
 
+var snelheidX = 0;
+var snelheidY=0;
 
 
 
@@ -107,20 +109,30 @@ var beweegKogel = function() {
 
 var beweegSpeler = function draw() {
   if (keyIsDown(37)) {
-    spelerX-=10;
+    snelheidX=-3;      
+    snelheidY=0;   
   }
 
   if (keyIsDown(39)) {
-    spelerX += 10;
+    
+    snelheidX=3;     
+    snelheidY=0;  
   }
 
-  if (keyIsDown(38)) {
-    spelerY -= 10;
+  if (keyIsDown(38))
+   {
+  
+    snelheidX=0;     
+     snelheidY=-3;  
   }
 
   if (keyIsDown(40)) {
-    spelerY += 10;
+    
+    snelheidX=0;     
+    snelheidY=3;  
   }
+  spelerX= spelerX + snelheidX;
+  spelerY = spelerY + snelheidY;
 };
 
 
