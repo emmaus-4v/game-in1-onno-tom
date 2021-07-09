@@ -35,7 +35,8 @@ var score = 0; // aantal behaalde punten
 var snelheidX = 0;
 var snelheidY=0;
 
-
+var staart = 3;
+const blok = 40;
 
 
 /* ********************************************* */
@@ -153,8 +154,13 @@ var checkVijandGeraakt = function() {
  * bijvoorbeeld door botsing met vijand
  * @returns {boolean} true als speler is geraakt
  */
-var checkSpelerGeraakt = function() {
-    
+var checkSpelerGeraakt = function eetFruit() {
+    if(vijandX === spelerX && vijandY === spelerY) {   // kijkt of speler is bij het fruit is
+      staart++;                                        // maakt staart langer
+      vijandX= Math.floor(Math.random() * blok)        // geeft een random x plek van het nieuwe fruit
+      vijandY= Math.floor(Math.random() * blok)        // geeft een random y plek van het nieuwe fruit
+    }
+    else 
   return false;
 };
 
