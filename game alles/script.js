@@ -21,24 +21,28 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
-var spelerX = 200; // x-positie van speler
-var spelerY = 100; // y-positie van speler
+var spelerX = 8; // begin  x-positie van speler
+var spelerY = 10; // begin y-positie van speler
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
 
-var vijandX = 100;   // x-positie van vijand
-var vijandY = 100;   // y-positie van vijand
+var vijandX = 12;   // x-positie van vijand
+var vijandY = 12;   // y-positie van vijand
 
 var score = 0; // aantal behaalde punten
 
 var snelheidX = 0;
-var snelheidY=0;
+var snelheidY= 0;
 
 var staart = 3;
-const blok = 40;
+var blok = 40;
 
+var vakjes = 19; 
 
+var veldX = 0;
+var veldY = 0;
+const grote = 800;
 /* ********************************************* */
 /*      functies die je gebruikt in je game      */
 /* ********************************************* */
@@ -47,12 +51,13 @@ const blok = 40;
 /**
  * Tekent het speelveld
  */
-var tekenVeld = function () {
-  fill("green");
-  rect(20, 20, width - 2 * 20, height - 2 * 20);
 
-  stroke('white')
+ var tekenVeld = function () {
+  fill("gray");
+  rect(0, 0, 800, 800)
 };
+
+ 
 
 
 /**
@@ -60,10 +65,9 @@ var tekenVeld = function () {
  * @param {} x x-coördinaat
  * @param {} y y-coördinaat
  */
-var tekenVijand = function(x, y) {
-  fill("red")
-  ellipse(x, y, 40, 40)
-
+var tekenVijand = function tekenVijand(x, y) {
+fill(72, 255, 0);
+rect(vijandX * 40, vijandY * 40, 40, 40)
 };
 
 
@@ -83,17 +87,19 @@ var tekenKogel = function(x, y) {
  * @param {number} x x-coördinaat
  * @param {number} y y-coördinaat
  */
-var tekenSpeler = function(x, y) {
-  fill("purple");
-  rect(x, y, 40, 40);
+ var tekenSpeler = function ( x, y) {
+ for (var i = 0; i < staart ; i++) {
+   fill("violet");
+  rect( x * 40 , y * 40, 40, 40)
+  x = x * 40 + 40;
+ }
 };
 
 
 /**
  * Updatet globale variabelen met positie van vijand of tegenspeler
  */
-var beweegVijand = function() {
-    
+ function beweegVijand() {
 };
 
 
@@ -112,13 +118,13 @@ var beweegKogel = function() {
 
 var beweegSpeler = function draw() {
   if (keyIsDown(37)) {
-    snelheidX=-3;      
+    snelheidX=-0.07;      
     snelheidY=0;   
   }
 
   if (keyIsDown(39)) {
     
-    snelheidX=3;     
+    snelheidX=0.07;     
     snelheidY=0;  
   }
 
@@ -126,16 +132,16 @@ var beweegSpeler = function draw() {
    {
   
     snelheidX=0;     
-     snelheidY=-3;  
+     snelheidY=-0.07;  
   }
 
   if (keyIsDown(40)) {
     
     snelheidX=0;     
-    snelheidY=3;  
+    snelheidY=0.07;  
   }
-  spelerX= spelerX + snelheidX;
-  spelerY = spelerY + snelheidY;
+  spelerX = (spelerX + snelheidX);
+  spelerY = (spelerY + snelheidY);
 };
 
 
@@ -143,10 +149,19 @@ var beweegSpeler = function draw() {
  * Zoekt uit of de vijand is geraakt
  * @returns {boolean} true als vijand is geraakt
  */
-var checkVijandGeraakt = function() {
-
-  return false;
+var checkVijandGeraakt = function eetFruit(vijandX, vijandY, spelerX, spelerY) {
+  if (spelerX === vijandX && spelerY === vijandY) {
+    staart = staart++;
+    let u = random(0,19); 
+    vijandX = u;
+    let h = random(0, 19);
+    vijandY = h;
+    tekenVijand();
+  }
+  else  false;
 };
+
+
 
 
 /**
@@ -154,13 +169,14 @@ var checkVijandGeraakt = function() {
  * bijvoorbeeld door botsing met vijand
  * @returns {boolean} true als speler is geraakt
  */
-var checkSpelerGeraakt = function eetFruit() {
-    if(vijandX === spelerX && vijandY === spelerY) {   // kijkt of speler is bij het fruit is
-      staart++;                                        // maakt staart langer
-      vijandX= Math.floor(Math.random() * blok)        // geeft een random x plek van het nieuwe fruit
-      vijandY= Math.floor(Math.random() * blok)        // geeft een random y plek van het nieuwe fruit
+var checkSpelerGeraakt = function () {
+    if( spelerX < 0 || spelerX > 19 || spelerY < 0 || spelerY > 19) {
+      /* resets naar begin van de game*/
+      staart = 3;                      
+      spelerX = 8;
+      spelerY = 10;
+      score = 0;
     }
-    else 
   return false;
 };
 
@@ -185,7 +201,7 @@ function setup() {
   createCanvas(800, 800);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('blue');
+  background('black');
 }
 
 
@@ -198,22 +214,19 @@ function draw() {
   switch (spelStatus) {
     case SPELEN:
       beweegVijand();
-      beweegKogel();
       beweegSpeler();
       
       if (checkVijandGeraakt()) {
-        // punten erbij
+       score = score + 10
         // nieuwe vijand maken
       }
       
       if (checkSpelerGeraakt()) {
-        // leven eraf of gezondheid verlagen
-        // eventueel: nieuwe speler maken
+          
       }
 
       tekenVeld();
       tekenVijand(vijandX, vijandY);
-      tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
 
       if (checkGameOver()) {
